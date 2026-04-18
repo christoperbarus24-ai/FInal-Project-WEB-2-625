@@ -4,7 +4,9 @@ public enum Category {
     ELEKTRONIK("Elektronik"),
     BUKU("Buku"),
     MAKANAN("Makanan"),
-    PAKAIAN("Pakaian");
+    PAKAIAN("Pakaian"),
+    MINUMAN("Minuman"),
+    KENDARAAN("Kendaraan");
 
     private final String displayName;
 
