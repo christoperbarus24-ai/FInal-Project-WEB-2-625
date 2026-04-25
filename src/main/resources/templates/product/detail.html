@@ -1,61 +1,133 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragments/layout :: header}">
-</head>
-<body>
-    <nav th:replace="~{fragments/layout :: navbar}"></nav>
+<head th:replace="~{fragments/layout :: header}"></head>
+<body class="bg-slate-50">
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
 
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                <h2 th:text="${product.name}" class="mb-4">Nama Produk</h2>
+<div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
 
-                <div class="card">
-                    <div class="card-body">
-                        <table class="table table-borderless mb-0">
-                            <tr>
-                                <th class="text-muted" style="width: 200px;">Nama</th>
-                                <td th:text="${product.name}">-</td>
-                            </tr>
-                            <tr>
-                                <th class="text-muted">Kategori</th>
-                                <td th:text="${product.category?.displayName}">-</td>
-                            </tr>
-                            <tr>
-                                <th class="text-muted">Harga</th>
-                                <td th:text="${'Rp ' + #numbers.formatDecimal(product.price, 0, 'POINT', 0, 'COMMA')}">Rp 0</td>
-                            </tr>
-                            <tr>
-                                <th class="text-muted">Stok</th>
-                                <td th:text="${product.stock}">0</td>
-                            </tr>
-                            <tr>
-                                <th class="text-muted">Deskripsi</th>
-                                <td th:text="${product.description}">-</td>
-                            </tr>
-                            <tr>
-                                <th class="text-muted">Status</th>
-                                <td>
-                                    <span th:if="${product.active}" class="badge bg-success">Aktif</span>
-                                    <span th:unless="${product.active}" class="badge bg-danger">Tidak Aktif</span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th class="text-muted">Tanggal Dibuat</th>
-                                <td th:text="${product.createdAt}">-</td>
-                            </tr>
-                        </table>
-                    </div>
+    <!-- Breadcrumb -->
+    <div class="flex items-center gap-2 text-sm text-slate-400 mb-6">
+        <a th:href="@{/products}" class="hover:text-slate-600 transition-colors">Produk</a>
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+        </svg>
+        <span class="text-slate-600" th:text="${product.name}">Detail Produk</span>
+    </div>
+
+    <div class="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
+
+        <!-- Header -->
+        <div class="px-8 py-6 border-b border-slate-100 flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
+            <div>
+                <div class="flex items-center gap-3 mb-2">
+                    <h1 class="text-2xl font-bold text-slate-800" th:text="${product.name}">Nama Produk</h1>
+                    <span th:if="${product.active}"
+                          class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-green-50 text-green-700 border border-green-200">
+                        Aktif
+                    </span>
+                    <span th:unless="${product.active}"
+                          class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-slate-100 text-slate-500">
+                        Nonaktif
+                    </span>
                 </div>
-
-                <div class="d-flex gap-2 mt-4">
-                    <a th:href="@{/products/{id}/edit(id=${product.id})}" class="btn btn-warning">Edit</a>
-                    <a th:href="@{/products}" class="btn btn-secondary">Kembali ke Daftar</a>
+                <p class="text-sm text-slate-400" th:if="${product.category != null}">
+                    Kategori:
+                    <span class="font-medium text-slate-600" th:text="${product.category.name}">-</span>
+                </p>
+            </div>
+            <div class="text-right sm:text-right">
+                <div class="text-2xl font-bold font-mono text-green-700"
+                     th:text="${'Rp ' + #numbers.formatDecimal(product.price, 0, 'POINT', 0, 'COMMA')}">Rp 0</div>
+                <div class="text-sm text-slate-400 mt-0.5">
+                    Stok:
+                    <span class="font-semibold"
+                          th:classappend="${product.stock < 5} ? 'text-amber-600' : 'text-slate-700'"
+                          th:text="${product.stock}">0</span>
                 </div>
             </div>
         </div>
-    </div>
 
-    <footer th:replace="~{fragments/layout :: footer}"></footer>
+        <!-- Detail Grid -->
+        <div class="p-8">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-0 divide-y sm:divide-y-0 sm:divide-x divide-slate-100">
+
+                <!-- Left column -->
+                <div class="space-y-5 sm:pr-8">
+                    <div>
+                        <div class="text-xs font-semibold text-slate-400 uppercase tracking-wide mb-1">Nama Produk</div>
+                        <div class="text-sm font-medium text-slate-800" th:text="${product.name}">-</div>
+                    </div>
+                    <div>
+                        <div class="text-xs font-semibold text-slate-400 uppercase tracking-wide mb-1">Kategori</div>
+                        <div class="text-sm text-slate-800">
+                            <span th:if="${product.category != null}" th:text="${product.category.name}">-</span>
+                            <span th:unless="${product.category != null}" class="italic text-slate-300">Tidak ada kategori</span>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="text-xs font-semibold text-slate-400 uppercase tracking-wide mb-1">Harga</div>
+                        <div class="text-sm font-mono font-medium text-slate-800"
+                             th:text="${'Rp ' + #numbers.formatDecimal(product.price, 0, 'POINT', 0, 'COMMA')}">-</div>
+                    </div>
+                    <div>
+                        <div class="text-xs font-semibold text-slate-400 uppercase tracking-wide mb-1">Stok</div>
+                        <div class="text-sm font-medium"
+                             th:classappend="${product.stock < 5} ? 'text-amber-600' : 'text-slate-800'"
+                             th:text="${product.stock}">-</div>
+                    </div>
+                </div>
+
+                <!-- Right column -->
+                <div class="space-y-5 sm:pl-8 pt-5 sm:pt-0">
+                    <div>
+                        <div class="text-xs font-semibold text-slate-400 uppercase tracking-wide mb-1">Status</div>
+                        <div>
+                            <span th:if="${product.active}"
+                                  class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-green-50 text-green-700">
+                                ● Aktif
+                            </span>
+                            <span th:unless="${product.active}"
+                                  class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-slate-100 text-slate-500">
+                                ○ Tidak Aktif
+                            </span>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="text-xs font-semibold text-slate-400 uppercase tracking-wide mb-1">Tanggal Dibuat</div>
+                        <div class="text-sm text-slate-800" th:text="${product.createdAt}">-</div>
+                    </div>
+                    <div>
+                        <div class="text-xs font-semibold text-slate-400 uppercase tracking-wide mb-1">Deskripsi</div>
+                        <div class="text-sm text-slate-600 leading-relaxed">
+                            <span th:if="${product.description != null and !#strings.isEmpty(product.description)}"
+                                  th:text="${product.description}">-</span>
+                            <span th:unless="${product.description != null and !#strings.isEmpty(product.description)}"
+                                  class="italic text-slate-300">Tidak ada deskripsi</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Footer Actions -->
+        <div class="px-8 py-5 border-t border-slate-100 bg-slate-50 flex flex-col sm:flex-row gap-3">
+            <a th:href="@{/products/{id}/edit(id=${product.id})}"
+               class="flex-1 sm:flex-none inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-amber-500 text-white text-sm font-semibold rounded-xl hover:bg-amber-600 transition-colors">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+                </svg>
+                Edit Produk
+            </a>
+            <a th:href="@{/products}"
+               class="flex-1 sm:flex-none inline-flex items-center justify-center gap-2 px-5 py-2.5 border border-slate-200 text-slate-600 text-sm font-medium rounded-xl hover:bg-slate-100 transition-colors">
+                ← Kembali ke Daftar
+            </a>
+        </div>
+    </div>
+</div>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
 </body>
 </html>

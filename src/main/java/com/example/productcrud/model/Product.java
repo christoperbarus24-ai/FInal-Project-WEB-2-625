@@ -1,4 +1,5 @@
 package com.example.productcrud.model;
+
 import java.time.LocalDate;
 
 import jakarta.persistence.*;
@@ -9,15 +10,18 @@ import org.springframework.format.annotation.DateTimeFormat;
 public class Product {
 
     @Id
-    @GeneratedValue(strategy = jakarta.persistence.GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false, length = 200)
     private String name;
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    // Relasi ManyToOne ke entity Category
+    // nullable = true agar produk lama yang belum punya category tidak error
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "category_id", nullable = true)
     private Category category;
+
     private long price;
     private int stock;
 

@@ -1,15 +1,12 @@
 package com.example.productcrud.config;
 
 import jakarta.servlet.FilterChain;
-import jakarta.servlet.Servlet;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.authentication.AnonymousAuthenticationFilter;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -22,11 +19,13 @@ public class AuthPageFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(final HttpServletRequest request, final HttpServletResponse response, final FilterChain filterChain)
-        throws ServletException, IOException {
+            throws ServletException, IOException {
         if (AUTH_PAGES.contains(request.getRequestURI())) {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-            if(authentication != null && authentication.isAuthenticated()
-                && !(authentication.getPrincipal() instanceof AnonymousAuthenticationToken)) {
+            // FIX: Cek apakah authentication bukan null, bukan anonymous, dan sudah terautentikasi
+            if (authentication != null
+                    && authentication.isAuthenticated()
+                    && !(authentication instanceof AnonymousAuthenticationToken)) {
                 response.sendRedirect("/products");
                 return;
             }
