@@ -20,7 +20,6 @@
         </a>
     </div>
 
-    <!-- Search & Filter -->
     <div class="bg-white rounded-2xl border border-slate-100 shadow-sm p-5 mb-5">
         <form th:action="@{/products}" method="get">
             <div class="flex flex-col sm:flex-row gap-3">
@@ -54,8 +53,7 @@
             </div>
         </form>
     </div>
-
-    <!-- Flash Messages -->
+=
     <div th:if="${successMessage}" role="alert"
          class="alert-dismissible mb-4 flex items-center justify-between gap-3 p-4 bg-green-50 border border-green-200 rounded-xl text-sm text-green-700">
         <div class="flex items-center gap-2">
@@ -76,8 +74,7 @@
         </div>
         <button class="btn-close-tw text-red-600">&times;</button>
     </div>
-
-    <!-- Result info -->
+=
     <div class="flex items-center justify-between mb-3 text-sm text-slate-500">
         <span>
             Menampilkan <span class="font-semibold text-slate-700" th:text="${#lists.size(products)}">0</span>
@@ -92,7 +89,6 @@
         </span>
     </div>
 
-    <!-- Table -->
     <div th:if="${!#lists.isEmpty(products)}"
          class="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
         <div class="overflow-x-auto">
@@ -161,7 +157,6 @@
         </div>
     </div>
 
-    <!-- Empty State -->
     <div th:if="${#lists.isEmpty(products)}"
          class="bg-white rounded-2xl border border-slate-100 shadow-sm p-16 text-center">
         <div th:if="${(keyword != null and !#strings.isEmpty(keyword)) or selectedCategoryId != null}">
@@ -183,7 +178,6 @@
         </div>
     </div>
 
-    <!-- Pagination -->
     <div th:if="${totalPages > 1}" class="flex items-center justify-center gap-1 mt-6">
         <a th:if="${currentPage > 1}"
            th:href="@{/products(keyword=${keyword}, categoryId=${selectedCategoryId}, page=${currentPage - 1})}"

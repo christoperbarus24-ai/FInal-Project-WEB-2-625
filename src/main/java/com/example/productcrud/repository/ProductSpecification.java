@@ -14,10 +14,8 @@ public class ProductSpecification {
         return (root, query, criteriaBuilder) -> {
             List<Predicate> predicates = new ArrayList<>();
 
-            // Selalu filter berdasarkan userId agar data terisolasi per user
             predicates.add(criteriaBuilder.equal(root.get("userId"), userId));
 
-            // Pencarian nama produk: partial match, case-insensitive
             if (keyword != null && !keyword.trim().isEmpty()) {
                 predicates.add(criteriaBuilder.like(
                         criteriaBuilder.lower(root.get("name")),
@@ -25,7 +23,6 @@ public class ProductSpecification {
                 ));
             }
 
-            // Filter kategori: gunakan LEFT JOIN agar produk tanpa kategori tidak ikut error
             if (categoryId != null) {
                 var categoryJoin = root.join("category", JoinType.LEFT);
                 predicates.add(criteriaBuilder.equal(categoryJoin.get("id"), categoryId));

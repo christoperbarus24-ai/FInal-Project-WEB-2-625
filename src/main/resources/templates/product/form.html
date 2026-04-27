@@ -6,7 +6,6 @@
 
 <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
 
-    <!-- Breadcrumb -->
     <div class="flex items-center gap-2 text-sm text-slate-400 mb-6">
         <a th:href="@{/products}" class="hover:text-slate-600 transition-colors">Produk</a>
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -34,7 +33,6 @@
                 <input type="hidden" th:field="*{id}">
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                    <!-- Nama Produk -->
                     <div class="sm:col-span-2">
                         <label for="name" class="block text-sm font-medium text-slate-700 mb-1.5">
                             Nama Produk <span class="text-red-500">*</span>
@@ -44,15 +42,8 @@
                                placeholder="Masukkan nama produk" required>
                     </div>
 
-                    <!-- Kategori -->
-                    <!--
-                        PERBAIKAN BUG #1:
-                        Ganti name="categoryId" menjadi name="category.id"
-                        Agar Spring MVC binding otomatis ke product.category.id
-                        sehingga ProductController bisa membaca product.getCategory().getId()
-                    -->
                     <div class="sm:col-span-2">
-                        <label for="category.id" class="block text-sm font-medium text-slate-700 mb-1.5">Kategori</label>
+                        <label for="categorySelect" class="block text-sm font-medium text-slate-700 mb-1.5">Kategori</label>
                         <select id="categorySelect" name="category.id"
                                 class="w-full px-4 py-2.5 text-sm border border-slate-200 rounded-xl outline-none focus:border-green-500 focus:ring-2 focus:ring-green-100 transition-all bg-white">
                             <option value="">— Pilih Kategori —</option>
@@ -70,7 +61,6 @@
                     </div>
                 </div>
 
-                <!-- Harga & Stok -->
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
                     <div>
                         <label for="priceDisplay" class="block text-sm font-medium text-slate-700 mb-1.5">
@@ -95,7 +85,6 @@
                     </div>
                 </div>
 
-                <!-- Deskripsi -->
                 <div>
                     <label for="description" class="block text-sm font-medium text-slate-700 mb-1.5">Deskripsi</label>
                     <textarea id="description" th:field="*{description}" rows="3"
@@ -103,7 +92,6 @@
                               placeholder="Deskripsi produk (opsional)"></textarea>
                 </div>
 
-                <!-- Status & Tanggal -->
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 items-end">
                     <div class="flex items-center gap-3 p-4 border border-slate-200 rounded-xl hover:bg-slate-50 transition-colors cursor-pointer">
                         <label class="relative inline-flex items-center cursor-pointer">
@@ -126,7 +114,6 @@
                     </div>
                 </div>
 
-                <!-- Tombol Aksi -->
                 <div class="flex flex-col sm:flex-row gap-3 pt-2 border-t border-slate-100">
                     <button type="submit"
                             class="flex-1 px-6 py-2.5 bg-green-600 text-white text-sm font-semibold rounded-xl hover:bg-green-700 transition-colors">

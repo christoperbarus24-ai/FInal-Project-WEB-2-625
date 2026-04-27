@@ -27,29 +27,22 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                // Matikan CSRF agar semua form POST bisa berjalan tanpa token CSRF
                 .csrf(csrf -> csrf.disable())
-
-                // Filter redirect: jika sudah login, tidak bisa akses /login atau /register
                 .addFilterBefore(authPageFilter, UsernamePasswordAuthenticationFilter.class)
-
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/login", "/register", "/css/**", "/js/**").permitAll()
                         .anyRequest().authenticated()
                 )
-
                 .formLogin(form -> form
                         .loginPage("/login")
                         .defaultSuccessUrl("/products", true)
                         .permitAll()
                 )
-
                 .logout(logout -> logout
                         .logoutUrl("/logout")
                         .logoutSuccessUrl("/login?logout")
                         .permitAll()
                 );
-
         return http.build();
     }
 }
